@@ -1,0 +1,54 @@
+<div
+  class="modal fade"
+  id="removeModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="removeModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="removeModalLabel">
+          Confirmar eliminar
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="resetObj.emit(false)"
+          [disabled]="loading"
+        >
+          <span *ngIf="!loading" aria-hidden="true">&times;</span>
+          <span *ngIf="loading"><i class="fa fa-sync fa-spin"></i></span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <span *ngIf="obj"
+          >¿Realmente desea eliminar el heroe: <b>{{ obj["name"] }}</b
+          >?</span
+        >
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          data-dismiss="modal"
+          (click)="resetObj.emit(false)"
+          [disabled]="loading"
+        >
+          Cerrar
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          (click)="removeHeroe(obj['id'])"
+          [disabled]="loading"
+        >
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

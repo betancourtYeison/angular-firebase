@@ -1,0 +1,156 @@
+<div class="row">
+  <div class="col">
+    <h3>
+      Héroe <small>{{ formData.get("name").value }}</small>
+    </h3>
+  </div>
+  <div class="col-4 text-right">
+    <button
+      type="button"
+      class="btn btn-outline-danger"
+      [routerLink]="['/']"
+      [disabled]="loading"
+    >
+      Regresar
+    </button>
+  </div>
+  <div class="col-12 text-left">
+    <button
+      type="button"
+      class="btn btn-outline-primary"
+      (click)="newHereo()"
+      [disabled]="loading"
+    >
+      Nuevo Héroe
+    </button>
+  </div>
+</div>
+<hr />
+<div class="row animated fadeIn fast">
+  <div class="col-md-12">
+    <form [formGroup]="formData" (ngSubmit)="save()">
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Nombre</label>
+        <div class="col-8">
+          <input
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                formData.get('name').invalid && formData.get('name').touched,
+              'is-valid':
+                formData.get('name').valid && formData.get('name').touched
+            }"
+            type="text"
+            placeholder="Nombre"
+            formControlName="name"
+          />
+          <div
+            class="alert alert-danger mt-2"
+            role="alert"
+            *ngIf="
+              formData.get('name').errors &&
+              formData.get('name').errors['required'] &&
+              formData.get('name').touched
+            "
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Casa</label>
+        <div class="col-8">
+          <select
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                formData.get('house').invalid && formData.get('house').touched,
+              'is-valid':
+                formData.get('house').valid && formData.get('house').touched
+            }"
+            formControlName="house"
+          >
+            <option value="">Seleccione una casa</option>
+            <option
+              [ngValue]="house.code"
+              *ngFor="let house of houses; let i = index"
+            >
+              {{ house.name }}
+            </option>
+          </select>
+          <div
+            class="alert alert-danger mt-2"
+            role="alert"
+            *ngIf="
+              formData.get('house').errors &&
+              formData.get('house').errors['required'] &&
+              formData.get('house').touched
+            "
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Biografía</label>
+        <div class="col-8">
+          <textarea
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                formData.get('biography').invalid &&
+                formData.get('biography').touched,
+              'is-valid':
+                formData.get('biography').valid &&
+                formData.get('biography').touched
+            }"
+            type="text"
+            placeholder="Biografía del héroe"
+            formControlName="biography"
+          ></textarea>
+          <div
+            class="alert alert-danger mt-2"
+            role="alert"
+            *ngIf="
+              formData.get('biography').errors &&
+              formData.get('biography').errors['required'] &&
+              formData.get('biography').touched
+            "
+          >
+            Este campo es requerido
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="ml-2">
+          <button
+            type="submit"
+            class="btn btn-outline-primary"
+            [disabled]="!formData.valid || loading"
+          >
+            <span *ngIf="newHeroe">Guardar </span>
+            <span *ngIf="!newHeroe">Actualizar </span>
+            <span *ngIf="loading"><i class="fa fa-sync fa-spin"></i></span>
+          </button>
+        </div>
+        <div class="ml-2" *ngIf="!newHeroe">
+          <button
+            type="button"
+            class="btn btn-outline-danger"
+            (click)="heroeToDelete = heroe"
+            data-toggle="modal"
+            data-target="#removeModal"
+            [disabled]="loading"
+          >
+            <span>Eliminar</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Modal -->
+<app-modal-remove
+  [obj]="heroeToDelete"
+  (resetObj)="resetObj($event)"
+></app-modal-remove>

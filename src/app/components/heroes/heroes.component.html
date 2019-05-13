@@ -1,0 +1,63 @@
+<h1>Héroes</h1>
+<hr />
+<app-loading *ngIf="loading"></app-loading>
+<div *ngIf="!loading" class="row animated fadeIn fast">
+  <div class="col-md-12 text-left mb-2">
+    <button
+      type="buttton"
+      class="btn btn-outline-primary"
+      [routerLink]="['/heroe', 'new']"
+    >
+      Nuevo Héroe
+    </button>
+  </div>
+</div>
+<div *ngIf="!loading" class="row animated fadeIn fast">
+  <div class="col-md-12">
+    <div class="table-responsive">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Casa</th>
+            <th class="text-right">Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let heroe of heroes; let i = index">
+            <td>({{ i + 1 }})</td>
+            <td>{{ heroe.name }}</td>
+            <td>{{ heroe.house | uppercase }}</td>
+            <td class="text-right w220">
+              <button
+                type="button"
+                class="btn btn-outline-primary mr-2"
+                [routerLink]="['/heroe', heroe.id]"
+              >
+                <i class="fas fa-edit"></i>
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger"
+                (click)="heroeToDelete = heroe"
+                data-toggle="modal"
+                data-target="#removeModal"
+              >
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="heroes.length === 0" class="alert alert-primary" role="aler">
+        <strong>No hay</strong> registros que mostrar
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<app-modal-remove
+  [obj]="heroeToDelete"
+  (resetObj)="heroeToDelete = null"
+></app-modal-remove>
